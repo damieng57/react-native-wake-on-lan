@@ -1,21 +1,22 @@
 # react-native-wake-on-lan
 
-React Native Wake-on-LAN lib
+React Native Wake-on-LAN lib (iOS)
 
 ## Installation
 
 ```sh
-npm install react-native-wake-on-lan
+npm install react-native-wake-on-lan --save
+npx pod-install
 ```
 
 ## Usage
 
 ```js
-import WakeOnLan from "react-native-wake-on-lan";
+import WOL from "react-native-wake-on-lan";
 
 // ...
 
-const result = await WakeOnLan.multiply(3, 7);
+const result = await WOL.wake({ mac: 'AA:BB:CC:DD:EE:FF' });
 ```
 
 ## Contributing

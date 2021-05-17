@@ -1,13 +1,12 @@
 import * as React from 'react';
-
 import { StyleSheet, View, Text } from 'react-native';
-import WakeOnLan from 'react-native-wake-on-lan';
+import WOL from 'react-native-wake-on-lan';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [result, setResult] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    WakeOnLan.multiply(3, 7).then(setResult);
+    WOL.wake({ mac: 'AA:BB:CC:DD:EE:FF' }).then(setResult);
   }, []);
 
   return (

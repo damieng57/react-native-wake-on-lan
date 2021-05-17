@@ -1,9 +1,19 @@
 import { NativeModules } from 'react-native';
 
-type WakeOnLanType = {
-  multiply(a: number, b: number): Promise<number>;
-};
-
 const { WakeOnLan } = NativeModules;
 
-export default WakeOnLan as WakeOnLanType;
+interface Configuration {
+  mac: string;
+  address?: string;
+}
+
+function wake({
+  mac,
+  address = '255.255.255.255',
+}: Configuration): Promise<string> {
+  return WakeOnLan.wake(mac, address);
+}
+
+export default {
+  wake,
+};

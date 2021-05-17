@@ -19,7 +19,7 @@ class WakeOnLan: NSObject {
         var target = sockaddr_in()
         
         target.sin_family = sa_family_t(AF_INET)
-        // target.sin_addr.s_addr = inet_addr(device.BroadcastAddr)
+        target.sin_addr.s_addr = inet_addr(device.BroadcastAddr)
         
         let isLittleEndian = Int(OSHostByteOrder()) == OSLittleEndian
         target.sin_port = isLittleEndian ? _OSSwapInt16(device.Port) : device.Port
@@ -69,18 +69,20 @@ class WakeOnLan: NSObject {
             return strtoul($0, nil, 16)
         }
 
-        // // Repeat MAC address 16 times
-        // for _ in 1...16 {
-        //     for number in numbers {
-        //         buffer.append(CUnsignedChar(number))
-        //     }
-        // }
+        // Repeat MAC address 16 times
+        for _ in 1...16 {
+            for number in numbers {
+                buffer.append(CUnsignedChar(number))
+            }
+        }
         
         return buffer
     }
 
-    @objc(multiply:withB:withResolver:withRejecter:)
-    func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        resolve(a*b)
+    @objc(wake:address:withResolver:withRejecter:)
+    func wake(mac: String, address: String, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        let computer = WakeOnLan.Device(MAC: mac, BroadcastAddr: address, Port: 9)
+        WakeOnLan.target(device: computer)
+        resolve("Wake-on-LAN packet has been sent")
     }
 }
